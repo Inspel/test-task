@@ -9,11 +9,16 @@
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "moduleResolution": "node",
     "composite": true,
     "baseUrl": "./some_company_test_F",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "types": ["vuetify"]
+    "types": [
+      "vuetify",
+    ]
   }
 }
