@@ -3,9 +3,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-const root = document.createElement('div');
-root.id = 'widget';
+// Vuetify
+import 'vuetify/styles'
+import vuetify from './plugins/vuetify'
 
-document.querySelector('body')!.appendChild(root);
-
-createApp(App).mount('#widget')
+createApp(App).use(vuetify).mount('#app')

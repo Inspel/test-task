@@ -13,6 +13,7 @@
     "baseUrl": "./some_company_test_F",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vuetify"]
   }
 }
