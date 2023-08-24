@@ -1,2 +1,2 @@
-export { fetchLocalesList } from './fetchLocalesList'
-export { fetchLocale } from './fetchLocale'
+export { fetchAllLocales } from './fetchAllLocales'
+export { fetchLocaleById } from './fetchLocaleById'

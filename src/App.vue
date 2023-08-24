@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LocaleList from '@/components/LocaleList.vue'
+import LocaleList from '@/components/LocalesList.vue'
 import { ref } from 'vue'
 import LocaleTable from '@/components/LocaleTable.vue'
 
