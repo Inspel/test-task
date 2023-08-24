@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import LocaleList from '@/components/LocaleList.vue'
-
 import { ref } from 'vue'
 import LocaleTable from '@/components/LocaleTable.vue'
 
 const selectedLocale = ref<string | null>(null)
 
-const setSelectedLocale = (locale: string | null) => {
-  selectedLocale.value = locale
+const updateSelectedLocale = (newLocale: string) => {
+  selectedLocale.value = newLocale
 }
 </script>
 
 <template>
-  <header></header>
-
-  <main>
+  <main class="wrapper">
     <aside>
-      <LocaleList setSelectedLocale="setSelectedLocale" />
+      <LocaleList :selectedLocale="selectedLocale" @update:selectedLocale="updateSelectedLocale" />
     </aside>
-    <LocaleTable selectedLocale="selectedLocale" />
+    <section>
+      <LocaleTable :selectedLocale="selectedLocale" />
+    </section>
   </main>
 </template>
 
