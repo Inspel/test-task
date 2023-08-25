@@ -16,20 +16,40 @@ const changeLocale = (newLocale: string) => {
 </script>
 
 <template>
-  <VCard width="300">
+  <VCard :class="$style.wrapper">
+    <div v-if="isLoading" :class="$style.status">
+      <VProgressCircular indeterminate />
+    </div>
+    <div v-if="isError">Error loading locales: {{ error.message }}</div>
     <VList v-if="data && data.length">
       <VListItem
         v-for="locale in data"
         :key="locale.id"
         @click="changeLocale(locale.id)"
         :active="locale.id === selectedLocale"
+        :class="$style.item"
       >
         <v-list-item-title>{{ locale.name }}</v-list-item-title>
       </VListItem>
     </VList>
-    <div v-if="isLoading">Loading...</div>
-    <div v-if="isError">Error loading data: {{ error }}</div>
   </VCard>
 </template>
 
-<style scoped></style>
+<style module>
+.wrapper {
+  position: relative;
+  width: 70px;
+  min-height: 100px;
+}
+
+.status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.item {
+  text-align: center;
+}
+</style>

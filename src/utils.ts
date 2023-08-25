@@ -1,13 +1,14 @@
 type DataObject = Record<string, any>
+
 export const flattenObject = (dataObject: DataObject): DataObject => {
   const result: DataObject = {}
 
   const helper = (obj: DataObject, prefix: string = ''): void => {
     Object.entries(obj).forEach(([key, value]) => {
-      if (typeof value === 'object' && value !== null) {
-        helper(value, prefix + key + '_')
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        helper(value, `${prefix}${key}.`)
       } else {
-        result[prefix + key] = value
+        result[`${prefix}${key}`] = value
       }
     })
   }

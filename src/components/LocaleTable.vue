@@ -2,7 +2,6 @@
 import { defineProps, computed, toRefs } from 'vue'
 import { useQuery } from 'vue-query'
 import { fetchLocaleById } from '@/api'
-import { flattenObject } from '@/utils'
 
 const props = defineProps<{
   selectedLocale: string | null
@@ -10,7 +9,7 @@ const props = defineProps<{
 
 const { selectedLocale } = toRefs(props)
 
-const { isLoading, isError, data, error } = useQuery(
+const { isLoading, isError, data, error, isFetched } = useQuery(
   ['locales', selectedLocale],
   () => fetchLocaleById(selectedLocale.value!),
   {
@@ -21,10 +20,6 @@ const { isLoading, isError, data, error } = useQuery(
 const exceptionsMap = {
   rtl: 'RTL'
 }
-
-const flattenedData = computed(() => {
-  return data.value ? flattenObject(data.value) : {}
-})
 
 function fieldNameToHeader(field: string): string {
   if (exceptionsMap[field]) {
@@ -37,37 +32,73 @@ function fieldNameToHeader(field: string): string {
     .join(' ')
 }
 
-const headers = computed(() => {
-  return Object.keys(flattenedData.value).map(fieldNameToHeader)
+const tableData = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, statistics, ...generalInfo } = data.value
+  const fullData = { ...generalInfo, ...statistics }
+
+  const computeGroupData = (info: Record<string, any>) => {
+    return Object.keys(info).map((field) => ({
+      field,
+      header: fieldNameToHeader(field),
+      value: fullData[field]
+    }))
+  }
+
+  return {
+    fullData,
+    generalInfoData: computeGroupData(generalInfo),
+    statisticsData: computeGroupData(statistics)
+  }
 })
 </script>
 
 <template>
-  <div>
-    <div v-if="isError">Error: {{ error.message }}</div>
+  <VCard :class="$style.wrapper" :loading="isLoading">
+    <div v-if="isError" :class="$style.status">Error loading locale: {{ error.message }}</div>
+    <div v-else-if="!isFetched" :class="$style.status">Select a locale</div>
 
-    <div v-if="isLoading">Loading...</div>
-
-    <div v-if="data">
+    <div v-else-if="data">
       <VTable>
-        <thead>
-          <tr>
-            <th class="text-left" v-for="header in headers" :key="header">{{ header }}</th>
+        <tbody>
+          <tr v-for="item in tableData.generalInfoData" :key="item.field">
+            <td :class="$style.tableHeader">{{ item.header }}</td>
+            <td>{{ item.value }}</td>
           </tr>
-        </thead>
+        </tbody>
 
         <tbody>
-          <tr v-if="data">
-            <td v-for="field in Object.keys(flattenedData)" :key="field">
-              {{ flattenedData[field] }}
-            </td>
+          <tr>
+            <td colspan="2" class="text-center" :class="[$style.tableHeader]">Statistics</td>
+          </tr>
+          <tr v-for="item in tableData.statisticsData" :key="item.field">
+            <td :class="$style.tableHeader">{{ item.header }}</td>
+            <td>{{ item.value }}</td>
           </tr>
         </tbody>
       </VTable>
     </div>
-  </div>
+  </VCard>
 </template>
 
-<style scoped>
-/* Add any required styles */
+<style module>
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 768px;
+  min-height: 320px;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.tableHeader {
+  font-weight: bold;
+}
+
+.status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

@@ -11,14 +11,27 @@ const updateSelectedLocale = (newLocale: string) => {
 </script>
 
 <template>
-  <main class="wrapper">
+  <main :class="[$style.wrapper, 'bg-grey-lighten-4']">
     <aside>
       <LocaleList :selectedLocale="selectedLocale" @update:selectedLocale="updateSelectedLocale" />
     </aside>
-    <section>
+    <section :class="$style.info">
       <LocaleTable :selectedLocale="selectedLocale" />
     </section>
   </main>
 </template>
 
-<style scoped></style>
+<style module>
+.wrapper {
+  display: flex;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
+  gap: 2rem;
+}
+
+.info {
+  width: 80%;
+}
+</style>
