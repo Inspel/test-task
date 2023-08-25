@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const PluralFormsSchema = z.union([
+const PluralFormsSchema = z.union([
   z.literal('zero'),
   z.literal('one'),
   z.literal('two'),
@@ -9,7 +9,7 @@ export const PluralFormsSchema = z.union([
   z.literal('other')
 ])
 
-const UniquePluralFormsArray = z.array(PluralFormsSchema).refine(
+export const UniquePluralFormsArray = z.array(PluralFormsSchema).refine(
   (data) => {
     return data.length === new Set(data).size
   },

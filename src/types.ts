@@ -3,10 +3,10 @@ import {
   LocaleSchema,
   LocalesListItemSchema,
   LocaleStatisticsSchema,
-  PluralFormsSchema
+  UniquePluralFormsArray
 } from '@/schemas'
 
-export type PluralForms = z.infer<typeof PluralFormsSchema>
+export type PluralForms = z.infer<typeof UniquePluralFormsArray>
 
 export type LocalesListItem = z.infer<typeof LocalesListItemSchema>
 

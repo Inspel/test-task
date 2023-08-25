@@ -2,6 +2,7 @@
 import { defineProps, computed, toRefs } from 'vue'
 import { useQuery } from 'vue-query'
 import { fetchLocaleById } from '@/api'
+import TableCell from '@/components/TableCell.vue'
 
 const props = defineProps<{
   selectedLocale: string | null
@@ -63,7 +64,7 @@ const tableData = computed(() => {
         <tbody>
           <tr v-for="item in tableData.generalInfoData" :key="item.field">
             <td :class="$style.tableHeader">{{ item.header }}</td>
-            <td>{{ item.value }}</td>
+            <TableCell :field-key="item.field" :value="item.value" />
           </tr>
         </tbody>
 
@@ -73,7 +74,7 @@ const tableData = computed(() => {
           </tr>
           <tr v-for="item in tableData.statisticsData" :key="item.field">
             <td :class="$style.tableHeader">{{ item.header }}</td>
-            <td>{{ item.value }}</td>
+            <TableCell :field-key="item.field" :value="item.value" />
           </tr>
         </tbody>
       </VTable>
