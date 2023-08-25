@@ -11,10 +11,10 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "composite": true,
-    "baseUrl": "./some_company_test_F",
+    "baseUrl": "./",
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/*",
       ]
     },
     "types": [

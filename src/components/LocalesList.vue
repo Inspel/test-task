@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
-import { useQuery } from 'vue-query'
-import { fetchAllLocales } from '@/api'
+import useFetchAllLocales from '@/api/composables/useFetchAllLocales'
 
 const { selectedLocale } = defineProps<{
   selectedLocale: string | null
 }>()
 
-const { isLoading, isError, data, error } = useQuery('locales', fetchAllLocales)
+const { isLoading, isError, data, error } = useFetchAllLocales()
 
 const emit = defineEmits(['update:selectedLocale'])
 const changeLocale = (newLocale: string) => {
@@ -20,7 +18,7 @@ const changeLocale = (newLocale: string) => {
     <div v-if="isLoading" :class="$style.status">
       <VProgressCircular indeterminate />
     </div>
-    <div v-if="isError">Error loading locales: {{ error.message }}</div>
+    <div v-if="isError">Error loading locales: {{ error }}</div>
     <VList v-if="data && data.length">
       <VListItem
         v-for="locale in data"

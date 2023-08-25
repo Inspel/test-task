@@ -1,32 +1,33 @@
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 
-type FieldKeys = 'plural_forms' | 'created_at' | 'updated_at' | 'rtl' | 'default' | 'main' | string
-
-type Values = string[] | string | number | boolean
-
-const props = defineProps<{ fieldKey: FieldKeys; value: Values }>()
+const props = defineProps<{ fieldKey: string; value: unknown }>()
 
 const renderedContent = computed(() => {
   switch (props.fieldKey) {
     case 'plural_forms':
-      return (props.value as string[]).join(', ')
+      return { type: 'text', value: (props.value as string[]).join(', ') }
     case 'created_at':
     case 'updated_at':
-      return new Date(props.value as string).toLocaleDateString()
+      return { type: 'text', value: new Date(props.value as string).toLocaleDateString() }
     case 'rtl':
     case 'default':
     case 'main':
-      return (props.value as boolean) ? '+' : '-'
+      return (props.value as boolean)
+        ? { type: 'icon', value: 'mdi-check' }
+        : { type: 'icon', value: 'mdi-close' }
     default:
-      return props.value
+      return { type: 'text', value: props.value }
   }
 })
 </script>
 
 <template>
   <td>
-    {{ renderedContent }}
+    <template v-if="renderedContent.type === 'text'">
+      {{ renderedContent.value }}
+    </template>
+    <v-icon v-else-if="renderedContent.type === 'icon'" :icon="renderedContent.value as string" />
   </td>
 </template>
 

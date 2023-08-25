@@ -1,7 +1,7 @@
 import { LocaleSchema } from '@/schemas'
-import type { Locale } from '@/types'
+import type { LocaleType } from '@/types'
 
-export const fetchLocaleById = async (id: string): Promise<Locale> => {
+export const fetchLocaleById = async (id: string): Promise<LocaleType> => {
   const headers = new Headers({
     Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`
   })
