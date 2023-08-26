@@ -2,6 +2,9 @@
 import LocaleList from '@/components/LocalesList.vue'
 import { ref } from 'vue'
 import LocaleTable from '@/components/LocaleTable/LocaleTable.vue'
+import useFetchAllLocales from '@/api/composables/useFetchAllLocales'
+
+const { isLoading, data, error } = useFetchAllLocales()
 
 const selectedLocale = ref<string | null>(null)
 
@@ -13,10 +16,16 @@ const updateSelectedLocale = (newLocale: string) => {
 <template>
   <main :class="[$style.wrapper, 'bg-grey-lighten-4']">
     <aside>
-      <LocaleList :selectedLocale="selectedLocale" @update:selectedLocale="updateSelectedLocale" />
+      <LocaleList
+        :selectedLocale="selectedLocale"
+        @update:selectedLocale="updateSelectedLocale"
+        :data="data"
+        :isLoading="isLoading"
+        :error="error"
+      />
     </aside>
     <section :class="$style.info">
-      <LocaleTable :selectedLocale="selectedLocale" />
+      <LocaleTable :selectedLocale="selectedLocale" :disabled="!(data && data.length > 0)" />
     </section>
   </main>
 </template>

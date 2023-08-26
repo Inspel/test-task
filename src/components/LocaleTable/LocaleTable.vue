@@ -3,22 +3,22 @@ import { toRefs } from 'vue'
 import TableCell from '@/components/TableCell.vue'
 import { useLocaleData } from './useLocaleData'
 
-const props = defineProps<{ selectedLocale: string | null }>()
+const props = defineProps<{
+  selectedLocale: string | null
+  disabled: boolean
+}>()
 
 const { selectedLocale } = toRefs(props)
-const { isLoading, isError, tableData, error, isFetched } = useLocaleData(selectedLocale)
+const { isLoading, tableData, error, isFetched } = useLocaleData(selectedLocale)
 </script>
 
 <template>
   <VCard :class="$style.wrapper" :loading="isLoading">
-    <template v-if="isError">
-      <div :class="$style.status">Error loading locale: {{ error }}</div>
-    </template>
-    <template v-else-if="isLoading">
+    <template v-if="isLoading">
       <div :class="$style.status">Loading...</div>
     </template>
     <template v-else-if="!isFetched">
-      <div :class="$style.status">Select a locale</div>
+      <div :class="[$style.status, disabled ? $style.disabled : '']">Select a locale</div>
     </template>
     <template v-else-if="tableData">
       <VTable>
@@ -38,6 +38,11 @@ const { isLoading, isError, tableData, error, isFetched } = useLocaleData(select
           </tr>
         </tbody>
       </VTable>
+    </template>
+    <template v-else>
+      <div :class="$style.status">
+        Error loading locale{{ !!error ? `: ${error.message}` : '' }}
+      </div>
     </template>
   </VCard>
 </template>
@@ -61,5 +66,9 @@ const { isLoading, isError, tableData, error, isFetched } = useLocaleData(select
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.disabled {
+  opacity: var(--v-disabled-opacity);
 }
 </style>

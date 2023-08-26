@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import useFetchAllLocales from '@/api/composables/useFetchAllLocales'
+import type { LocalesListItem } from '@/types'
 
-const { selectedLocale } = defineProps<{
+const { selectedLocale, data, error } = defineProps<{
   selectedLocale: string | null
+  isLoading: boolean
+  error: Error | undefined
+  data?: Array<LocalesListItem>
 }>()
-
-const { isLoading, isError, data, error } = useFetchAllLocales()
 
 const emit = defineEmits(['update:selectedLocale'])
 const changeLocale = (newLocale: string) => {
@@ -15,21 +16,27 @@ const changeLocale = (newLocale: string) => {
 
 <template>
   <VCard :class="$style.wrapper">
-    <div v-if="isLoading" :class="$style.status">
-      <VProgressCircular indeterminate />
-    </div>
-    <div v-if="isError">Error loading locales: {{ error }}</div>
-    <VList v-if="data && data.length">
-      <VListItem
-        v-for="locale in data"
-        :key="locale.id"
-        @click="changeLocale(locale.id)"
-        :active="locale.id === selectedLocale"
-        :class="$style.item"
-      >
-        <v-list-item-title>{{ locale.name }}</v-list-item-title>
-      </VListItem>
-    </VList>
+    <template v-if="isLoading">
+      <div :class="$style.status">
+        <VProgressCircular indeterminate />
+      </div>
+    </template>
+    <template v-else-if="data && data.length">
+      <VList>
+        <VListItem
+          v-for="locale in data"
+          :key="locale.id"
+          @click="changeLocale(locale.id)"
+          :active="locale.id === selectedLocale"
+          :class="$style.item"
+        >
+          <v-list-item-title>{{ locale.name }}</v-list-item-title>
+        </VListItem>
+      </VList>
+    </template>
+    <template v-else>
+      <div>Error loading locales{{ !!error ? `: ${error.message}` : '' }}</div>
+    </template>
   </VCard>
 </template>
 
