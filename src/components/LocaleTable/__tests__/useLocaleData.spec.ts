@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import type { MockedFunction } from 'vitest'
 import { useLocaleData } from '@/components/LocaleTable/useLocaleData'
-import useFetchLocaleById from '@/api/composables/useFetchLocaleById'
+import { useFetchLocaleById } from '@/api/composables/useFetchLocaleById'
 import { localeFixture, tableDataFixture } from './fixtures'
 
 vi.mock('@/api/composables/useFetchLocaleById')

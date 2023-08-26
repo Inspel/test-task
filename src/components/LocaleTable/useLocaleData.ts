@@ -1,13 +1,14 @@
 import type { Ref } from 'vue'
 import { computed } from 'vue'
-import useFetchLocaleById from '@/api/composables/useFetchLocaleById'
+import { useFetchLocaleById } from '@/api/composables/useFetchLocaleById'
 
-const exceptionsMap = {
+const exceptionsMap: Record<string, string> = {
   rtl: 'RTL'
 }
+
 const fieldNameToHeader = (field: string): string => {
   return (
-    exceptionsMap[field as keyof typeof exceptionsMap] ||
+    exceptionsMap[field] ||
     field
       .split('_')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -15,11 +16,11 @@ const fieldNameToHeader = (field: string): string => {
   )
 }
 
-const mapDataToGroup = (groupInfo: Record<string, any>) =>
+const mapDataToTableGroup = <T extends Record<string, any>>(groupInfo: T) =>
   Object.entries(groupInfo).map(([field, value]) => ({
-    field,
+    field: field as keyof T,
     header: fieldNameToHeader(field),
-    value
+    value: value as T[keyof T]
   }))
 
 export const useLocaleData = (selectedLocaleRef: Ref<string | null>) => {
@@ -32,8 +33,8 @@ export const useLocaleData = (selectedLocaleRef: Ref<string | null>) => {
     const { id, statistics, ...generalInfo } = data.value
 
     return {
-      generalInfoData: mapDataToGroup(generalInfo),
-      statisticsData: mapDataToGroup(statistics)
+      generalInfoData: mapDataToTableGroup<typeof generalInfo>(generalInfo),
+      statisticsData: mapDataToTableGroup<typeof statistics>(statistics)
     }
   })
 

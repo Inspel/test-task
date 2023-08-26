@@ -1,8 +1,8 @@
-import type { LocalesListItem } from '@/types'
+import type { LocalesListItemType } from '@/types'
 import { LocalesListItemSchema } from '@/schemas'
 import { z } from 'zod'
 
-export const fetchAllLocales = async (): Promise<LocalesListItem[]> => {
+export const fetchAllLocales = async (): Promise<LocalesListItemType[]> => {
   const headers = new Headers({
     Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`
   })

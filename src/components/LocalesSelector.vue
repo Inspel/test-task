@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { LocalesListItem } from '@/types'
+import type { LocalesListItemType } from '@/types'
 
 const { selectedLocale, data, error } = defineProps<{
   selectedLocale: string | null
   isLoading: boolean
   error: Error | null
-  data?: Array<LocalesListItem>
+  data?: Array<LocalesListItemType>
 }>()
 
 const emit = defineEmits(['update:selectedLocale'])

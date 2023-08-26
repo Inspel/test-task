@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
-import TableCell from '@/components/TableCell.vue'
+import TableCell from '@/components/LocaleTable/TableCell.vue'
 import { useLocaleData } from './useLocaleData'
 
 const props = defineProps<{
