@@ -21,7 +21,7 @@ const { isLoading, tableData, error, isFetched } = useLocaleData(selectedLocale)
       <div :class="[$style.status, disabled ? $style.disabled : '']">Select a locale</div>
     </template>
     <template v-else-if="tableData">
-      <VTable>
+      <VTable data-cy="table">
         <tbody>
           <tr v-for="item in tableData.generalInfoData" :key="item.field">
             <td :class="$style.tableHeader">{{ item.header }}</td>

@@ -4,7 +4,7 @@ import type { LocalesListItem } from '@/types'
 const { selectedLocale, data, error } = defineProps<{
   selectedLocale: string | null
   isLoading: boolean
-  error: Error | undefined
+  error: Error | null
   data?: Array<LocalesListItem>
 }>()
 

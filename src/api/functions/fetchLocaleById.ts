@@ -7,7 +7,7 @@ export const fetchLocaleById = async (id: string): Promise<LocaleType> => {
   })
 
   const response = await fetch(
-    `https://api.phrase.com/v2/projects/${import.meta.env.VITE_PROJECT_ID}/locales/${id}`,
+    `${import.meta.env.VITE_API_URL}/projects/${import.meta.env.VITE_PROJECT_ID}/locales/${id}`,
     {
       method: 'GET',
       headers
