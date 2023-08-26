@@ -37,10 +37,12 @@ const updateSelectedLocale = (newLocale: string) => {
   padding: 2rem;
   width: 100vw;
   height: 100vh;
+  justify-content: center;
   gap: 2rem;
 }
 
 .info {
   width: 80%;
+  max-width: 500px;
 }
 </style>

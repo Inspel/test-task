@@ -33,7 +33,7 @@ const renderedContent = computed(() => {
       return { type: 'text', value: props.value.join(', ') }
     case 'created_at':
     case 'updated_at':
-      return { type: 'text', value: new Date(props.value).toLocaleDateString() }
+      return { type: 'text', value: new Date(props.value).toLocaleString() }
     case 'rtl':
     case 'default':
     case 'main':
