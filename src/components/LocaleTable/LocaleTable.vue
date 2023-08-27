@@ -1,23 +1,39 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 import TableCell from '@/components/LocaleTable/TableCell.vue'
 import { useLocaleData } from './useLocaleData'
 
 const props = defineProps<{
   selectedLocale: string | null
   disabled: boolean
+  localesError: Error | null
 }>()
 
-const { selectedLocale } = toRefs(props)
-const { isLoading, tableData, error, isFetched } = useLocaleData(selectedLocale)
+const { selectedLocale, localesError, disabled } = toRefs(props)
+const { isLoading, tableData, error } = useLocaleData(selectedLocale)
+
+const computedError = computed(() => {
+  if (localesError.value) {
+    return `Failed to load locales list: ${localesError.value.message}`
+  }
+  if (error.value) {
+    return `Failed to load locale data: ${error.value.message}`
+  }
+  return null
+})
 </script>
 
 <template>
   <VCard :class="$style.wrapper" :loading="isLoading">
-    <template v-if="isLoading">
+    <template v-if="error || localesError">
+      <div :class="$style.status">
+        {{ computedError }}
+      </div>
+    </template>
+    <template v-else-if="isLoading">
       <div :class="$style.status">Loading...</div>
     </template>
-    <template v-else-if="!isFetched">
+    <template v-else-if="!selectedLocale">
       <div :class="[$style.status, disabled ? $style.disabled : '']">Select a locale</div>
     </template>
     <template v-else-if="tableData">
@@ -38,11 +54,6 @@ const { isLoading, tableData, error, isFetched } = useLocaleData(selectedLocale)
           </tr>
         </tbody>
       </VTable>
-    </template>
-    <template v-else>
-      <div :class="$style.status">
-        Error loading locale{{ !!error ? `: ${error.message}` : '' }}
-      </div>
     </template>
   </VCard>
 </template>
@@ -65,7 +76,9 @@ const { isLoading, tableData, error, isFetched } = useLocaleData(selectedLocale)
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 90%;
   transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .disabled {

@@ -21,11 +21,10 @@ const updateSelectedLocale = (newLocale: string) => {
         @update:selectedLocale="updateSelectedLocale"
         :data="data"
         :isLoading="isLoading"
-        :error="error"
       />
     </aside>
     <section :class="$style.info">
-      <LocaleTable :selectedLocale="selectedLocale" :disabled="!(data && data.length > 0)" />
+      <LocaleTable :selectedLocale="selectedLocale" :disabled="isLoading" :localesError="error" />
     </section>
   </main>
 </template>

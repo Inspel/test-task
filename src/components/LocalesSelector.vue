@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { LocalesListItemType } from '@/types'
 
-const { selectedLocale, data, error } = defineProps<{
+const { selectedLocale, data } = defineProps<{
   selectedLocale: string | null
   isLoading: boolean
-  error: Error | null
   data?: Array<LocalesListItemType>
 }>()
 
@@ -30,12 +29,9 @@ const changeLocale = (newLocale: string) => {
           :active="locale.id === selectedLocale"
           :class="$style.item"
         >
-          <v-list-item-title>{{ locale.name }}</v-list-item-title>
+          <VListItemTitle>{{ locale.name }}</VListItemTitle>
         </VListItem>
       </VList>
-    </template>
-    <template v-else>
-      <div>Error loading locales{{ !!error ? `: ${error.message}` : '' }}</div>
     </template>
   </VCard>
 </template>
