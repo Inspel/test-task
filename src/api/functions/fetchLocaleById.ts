@@ -1,4 +1,4 @@
-import { LocaleSchema } from '@/schemas'
+import { LocaleSchema } from '@/api/schemas'
 import type { LocaleType } from '@/types'
 
 export const fetchLocaleById = async (id: string): Promise<LocaleType> => {

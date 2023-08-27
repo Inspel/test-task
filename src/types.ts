@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { LocaleSchema, LocalesListItemSchema } from '@/schemas'
+import { LocaleSchema, LocalesListItemSchema } from '@/api/schemas'
 
 export type LocalesListItemType = z.infer<typeof LocalesListItemSchema>
 

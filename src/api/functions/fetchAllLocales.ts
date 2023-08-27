@@ -1,5 +1,5 @@
 import type { LocalesListItemType } from '@/types'
-import { LocalesListItemSchema } from '@/schemas'
+import { LocalesListItemSchema } from '@/api/schemas'
 import { z } from 'zod'
 
 export const fetchAllLocales = async (): Promise<LocalesListItemType[]> => {

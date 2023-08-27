@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LocalesSelector from '@/components/LocalesSelector.vue'
+import LocaleSelector from '@/components/LocaleSelector.vue'
 import { ref } from 'vue'
 import LocaleTable from '@/components/LocaleTable/LocaleTable.vue'
 import { useFetchAllLocales } from '@/api/composables/useFetchAllLocales'
@@ -16,7 +16,7 @@ const updateSelectedLocale = (newLocale: string) => {
 <template>
   <main :class="[$style.wrapper, 'bg-grey-lighten-4']">
     <aside>
-      <LocalesSelector
+      <LocaleSelector
         :selectedLocale="selectedLocale"
         @update:selectedLocale="updateSelectedLocale"
         :data="data"
